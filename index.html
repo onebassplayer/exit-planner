@@ -17,7 +17,7 @@
   <meta property="og:url" content="https://moonshotexitplanner.com">
   <meta property="og:title" content="Moonshot Exit Planner | Should I Quit My Job and Start a Business?">
   <meta property="og:description" content="Answer 6 honest questions. Get a readiness score, a custom business concept, your runway math, and a clear next move. Free tool by Moonshot Consulting.">
-  <meta property="og:image" content="https://moonshotexitplanner.com/MoonshotLogo.webp">
+  <meta property="og:image" content="https://moonshotexitplanner.com/assets/MoonshotLogo.webp">
   <meta property="og:site_name" content="Moonshot Consulting">
 
   <!-- Twitter Card -->
@@ -26,7 +26,7 @@
   <meta name="twitter:creator" content="@gomoonshot">
   <meta name="twitter:title" content="Moonshot Exit Planner | Should I Quit My Job and Start a Business?">
   <meta name="twitter:description" content="Answer 6 honest questions. Get a readiness score, a custom business concept, your runway math, and a clear next move.">
-  <meta name="twitter:image" content="https://moonshotexitplanner.com/MoonshotLogo.webp">
+  <meta name="twitter:image" content="https://moonshotexitplanner.com/assets/MoonshotLogo.webp">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -859,6 +859,32 @@
       <div id="planPhases" style="display:flex;flex-direction:column;gap:20px;margin-top:16px;"></div>
     </div>
 
+    <div class="steps-card" id="incomeBridgeCard" style="margin-bottom:20px;">
+      <p class="section-tag">Income Bridge</p>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">How to start earning while still employed — before you make the leap.</p>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:14px;">
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;">Strategy</div>
+        <p id="incomeBridgeStrategy" style="font-size:15px;color:var(--muted);line-height:1.7;"></p>
+      </div>
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(76,175,130,0.1);border:1px solid rgba(76,175,130,0.3);border-radius:8px;padding:10px 16px;">
+        <span style="color:var(--green);font-size:18px;">💰</span>
+        <span id="incomeBridgeTarget" style="font-size:14px;font-weight:600;color:var(--green);"></span>
+      </div>
+    </div>
+
+    <div class="steps-card" id="networkCard" style="margin-bottom:20px;">
+      <p class="section-tag">Network Activation</p>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Who to contact this week and what to say.</p>
+      <div style="margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;">Who to contact</div>
+        <div id="whoToContact" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:20px;">
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;">Your outreach script</div>
+        <p id="networkScript" style="font-size:14px;color:var(--muted);line-height:1.7;font-style:italic;"></p>
+      </div>
+    </div>
+
     <div class="resources-card">
       <p class="section-tag">Resources Worth Your Time</p>
       <ul class="resource-list" id="resourceList"></ul>
@@ -1201,7 +1227,8 @@ The JSON must be wrapped in <PLAN> tags and contain:
   "monetization": string (one sentence: how money comes in first and realistic monthly target e.g. "$3K-$6K/month within 90 days by..."),
   "savings": number (extract from conversation, 0 if not mentioned),
   "burn": number (monthly expenses, 0 if not mentioned),
-  "next_steps": [{"title": string, "description": string}, x3],
+  "income_bridge": {"strategy": string, "target": string},
+  "network_activation": {"who_to_contact": [string, string, string], "script": string},
   "ninety_day_plan": [{"phase":"Days 1-30: Foundation","actions":[string,string,string]},{"phase":"Days 31-60: Traction","actions":[string,string,string]},{"phase":"Days 61-90: Scale","actions":[string,string,string]}],
   "resources": [{"title": string, "url": string, "description": string}, x3],
   "runway_insight": string
@@ -1282,16 +1309,20 @@ Do NOT output the JSON until you explicitly say "I think I have what I need — 
 Name: ${state.firstName}, Motivation: ${motivationMap[state.motivation]||state.motivation}, Skills: ${state.skills}, Validation: ${validationMap[state.validation]||state.validation}, Validation detail: ${state.validationDetail||'none'}, Constraints: ${constraintText}, Additional: ${state.constraintOther||'none'}, Savings: $${state.savings.toLocaleString()}, Monthly burn: $${state.burn.toLocaleString()}, Runway: ${state.runwayMonths} months (${state.runwayTier}).
 
 Return ONLY valid JSON:
-{"readiness_score":integer,"readiness_label":string,"narrative":string,"business_concept":string,"business_concept_rationale":string,"monetization":string,"next_steps":[{"title":string,"description":string},{"title":string,"description":string},{"title":string,"description":string}],"ninety_day_plan":[{"phase":"Days 1-30: Foundation","actions":[string,string,string]},{"phase":"Days 31-60: Traction","actions":[string,string,string]},{"phase":"Days 61-90: Scale","actions":[string,string,string]}],"resources":[{"title":string,"url":string,"description":string},{"title":string,"url":string,"description":string},{"title":string,"url":string,"description":string}],"runway_insight":string}
+{"readiness_score":integer,"readiness_label":string,"narrative":string,"business_concept":string,"business_concept_rationale":string,"monetization":string,"next_steps":[{"title":string,"description":string},{"title":string,"description":string},{"title":string,"description":string}],"ninety_day_plan":[{"phase":"Days 1-30: Foundation","actions":[string,string,string]},{"phase":"Days 31-60: Traction","actions":[string,string,string]},{"phase":"Days 61-90: Scale","actions":[string,string,string]}],"income_bridge":{"strategy":string,"target":string},"network_activation":{"who_to_contact":[string,string,string],"script":string},"resources":[{"title":string,"url":string,"description":string},{"title":string,"url":string,"description":string},{"title":string,"url":string,"description":string}],"runway_insight":string}
 
-monetization: one sentence on exactly how money comes in first and a realistic monthly target range (e.g. "$3K-$6K/month within 90 days by...").
+monetization: one sentence on exactly how money comes in first and a realistic monthly target range.
 ninety_day_plan: 3 tactical bullet actions per phase, specific to their business concept and constraints.
+income_bridge.strategy: one paragraph on how to generate side income while still employed, specific to their exact skills and business concept. Be concrete — name the specific service or offer, where to find first clients, and what to charge.
+income_bridge.target: realistic monthly side income range achievable within 60 days (e.g. "$1,500–$3,000/month within 60 days").
+network_activation.who_to_contact: 3 specific types of people to reach out to this week based on their business concept (e.g. "Former colleagues at SaaS companies who know your recruiting work").
+network_activation.script: one short, specific outreach message (3-4 sentences) they can send this week. Make it warm, specific to their business concept, not generic.
 Scoring: validation(yes_paid=+30,yes_interest=+15,no_idea=+5,none=0)+motivation(toward=+15,both=+10,from=+5,unsure=0)+runway(green=+20,yellow=+10,red=0)+skills(specific=+20,vague=+5)+constraints(none=+5,many=-10)+base 10. Be honest.`;
 
     try {
       const response = await fetch(PROXY_URL, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2000, messages: [{ role: 'user', content: prompt }] })
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2500, messages: [{ role: 'user', content: prompt }] })
       });
       const data   = await response.json();
       const raw    = data.content?.[0]?.text || '';
@@ -1362,6 +1393,25 @@ Scoring: validation(yes_paid=+30,yes_interest=+15,no_idea=+5,none=0)+motivation(
       li.innerHTML = `<a href="${res.url}" target="_blank" class="resource-item"><span><strong>${res.title}</strong><br><span style="color:var(--muted);font-size:13px">${res.description}</span></span><span class="resource-arrow">↗</span></a>`;
       resList.appendChild(li);
     });
+
+    // Income bridge
+    if (r.income_bridge) {
+      document.getElementById('incomeBridgeStrategy').textContent = r.income_bridge.strategy || '';
+      document.getElementById('incomeBridgeTarget').textContent   = r.income_bridge.target || '';
+    }
+
+    // Network activation
+    if (r.network_activation) {
+      const whoEl = document.getElementById('whoToContact');
+      whoEl.innerHTML = '';
+      (r.network_activation.who_to_contact||[]).forEach(who => {
+        const div = document.createElement('div');
+        div.style.cssText = 'display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--muted);line-height:1.6;';
+        div.innerHTML = `<span style="color:var(--amber);flex-shrink:0;">→</span>${who}`;
+        whoEl.appendChild(div);
+      });
+      document.getElementById('networkScript').textContent = r.network_activation.script || '';
+    }
 
     document.getElementById('resultsCard').classList.add('visible');
     window.scrollTo({ top: 0, behavior: 'smooth' });
